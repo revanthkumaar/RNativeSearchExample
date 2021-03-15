@@ -61,17 +61,20 @@ export default function App() {
   return (
     //SCENARIO-1 SUCCESS RESPONSE AND DISPLAY DATA ON UI
     <View style={styles.container}>
-      <Text style={styles.text}> Flat list example </Text>
+      <Text style={styles.text}>Favorite Contacts</Text>
       <FlatList
         data={data}
         keyExtractor={item => item.first}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <View style={styles.listItem}>
-            <Image source={{uri: item.picture.thumbnail}} />
+            <Image
+              source={{ uri: item.picture.thumbnail }}
+              style={styles.coverImage}
+            />
             <View style={styles.metaInfo}>
-              <Text style={styles.title}>
-                {`${item.name.first} ${item.name.last} `}
-              </Text>
+              <Text style={styles.title}>{`${item.name.first} ${
+                item.name.last
+              }`}</Text>
             </View>
           </View>
         )}
