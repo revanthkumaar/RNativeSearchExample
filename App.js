@@ -21,29 +21,58 @@ export default function App() {
 
   useEffect(() => {
     setIsLoading(true);
-
     fetch(API_ENDPOINT)
       .then(response => response.json())
       .then(results => {
         setData(results);
-        setIsLoading(false);
+        setIsLoading(false); // call is successful
       })
       .catch(err => {
         setIsLoading(false);
-        setError(err);
+        setError(err); //call failed coz of an error
       });
   }, []);
 
+  //loader icon functionality with "ActivityIndicator"
+
+  if (isLoading) {
+    //SCENARIO-2 LOADING - YET TO GET RESPONSE
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  //error handling on UI
+
+  if (error) {
+    //SCENARIO -3 ERROR
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text>
+          Error fetching data.. check your connection or with backend engineer.
+        </Text>
+      </View>
+    );
+  }
+
   //UI components to get rendered
   return (
+    //SCENARIO-1 SUCCESS RESPONSE AND DISPLAY DATA ON UI
     <View style={styles.container}>
       <Text style={styles.text}> Flat list example </Text>
       <FlatList
         data={data}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.first}
         renderItem={({item}) => (
           <View style={styles.listItem}>
-            <Text style={styles.listItemText}>{item.title}</Text>
+            <Image source={{uri: item.picture.thumbnail}} />
+            <View style={styles.metaInfo}>
+              <Text style={styles.title}>
+                {`${item.name.first} ${item.name.last} `}
+              </Text>
+            </View>
           </View>
         )}
       />
@@ -51,15 +80,6 @@ export default function App() {
   );
 }
 
-/*/mock data
-const data = [
-  {id: '1', title: 'first item'},
-  {id: '2', title: 'second item'},
-  {id: '3', title: 'third item'},
-  {id: '4', title: 'four item'},
-];
-
-*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
