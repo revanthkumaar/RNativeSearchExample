@@ -1,4 +1,6 @@
+import React, {useState,useEffect} from 'react';
 import {StyleSheet, Text, View, FlatList} from 'react-native';
+
 
 export default function App() {
   return (
@@ -17,6 +19,7 @@ export default function App() {
   );
 }
 
+//mock data
 const data = [
   {id: '1', title: 'first item'},
   {id: '2', title: 'second item'},
