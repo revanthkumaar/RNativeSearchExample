@@ -63,9 +63,19 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.text}>Favorite Contacts</Text>
       <FlatList
+      //data = results (in api response)
         data={data}
-        keyExtractor={item => item.first}
+        keyExtractor={item => item.phone}
         renderItem={({ item }) => (
+        
+        <View style={styles.listItem}>
+        <Text>{item.name.first</Text>
+
+        </View>
+
+
+
+          /*
           <View style={styles.listItem}>
             <Image
               source={{ uri: item.picture.thumbnail }}
@@ -77,6 +87,7 @@ export default function App() {
               }`}</Text>
             </View>
           </View>
+          */
         )}
       />
     </View>
