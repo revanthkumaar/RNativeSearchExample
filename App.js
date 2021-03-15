@@ -69,7 +69,7 @@ export default function App() {
         renderItem={({ item }) => (
         
         <View style={styles.listItem}>
-        <Text>{item.name.first</Text>
+        <Text>{item.name.first}</Text>
 
         </View>
 
