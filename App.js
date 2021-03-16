@@ -19,6 +19,10 @@ export default function App() {
   const [error, setError] = useState(null);
   const [textInput, setTextInput] = useState('');
 
+  //search parameter
+  const [query, setQuery] = useState('');
+  const [fullData, setFullData] = useState([]);
+
   // calling the API endpoint
   useEffect(() => {
     setIsLoading(true);
@@ -26,6 +30,7 @@ export default function App() {
       .then(response => response.json())
       .then(json => {
         setData(json.results);
+        setFullData(json.results);
         setIsLoading(false); // call is successful
       })
       .catch(err => {
@@ -56,29 +61,54 @@ export default function App() {
     );
   }
 
+  //search functionality
+
+  const handleSearch = text => {
+    const formattedQuery = text.toLowerCase();
+    const filteredData = filter(fullData, user => {
+      return contains(user, formattedQuery);
+    });
+    setData(filteredData); //show filtered data on the UI
+    setQuery(text);
+  };
+
+  const contains = ({name, email}, query) => {
+    const {first, last} = name;
+
+    if (
+      first.includes(query) ||
+      last.includes(query) ||
+      email.includes(query)
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
   //UI component to render as a header of flatlist (search bar)
 
-  function renderHeader(){
-    return(
-      <View style={{
-        backgroundColor: '#fff',
-        padding: 10,
-        marginVertical: 10,
-        borderRadius: 20
-      }}>
-        <TextInput 
+  function renderHeader() {
+    return (
+      <View
+        style={{
+          backgroundColor: '#fff',
+          padding: 10,
+          marginVertical: 10,
+          borderRadius: 20,
+        }}>
+        <TextInput
           autoCapitalize="none"
           autoCorrect={false}
           clearButtonMode="always"
           value={query}
           onChangeText={queryText => handleSearch(queryText)}
           placeholder="Search"
-          style={{ backgroundColor: '#fff', paddingHorizontal: 20 }}
+          style={{backgroundColor: '#fff', paddingHorizontal: 20}}
         />
       </View>
-    )
+    );
   }
-
 
   // Entire UI components to be rendered
   return (
@@ -88,7 +118,7 @@ export default function App() {
         contentContainerStyle={{paddingBottom: 20}}
         data={data}
         keyExtractor={(item, _index) => _index.toString()}
-        ListHeaderComponent = {renderHeader}
+        ListHeaderComponent={renderHeader}
         renderItem={({item}) => (
           <View style={styles.listItem}>
             <Image
