@@ -60,8 +60,21 @@ export default function App() {
 
   function renderHeader(){
     return(
-      <View>
-        <Text>Search Bar Here!</Text>
+      <View style={{
+        backgroundColor: '#fff',
+        padding: 10,
+        marginVertical: 10,
+        borderRadius: 20
+      }}>
+        <TextInput 
+          autoCapitalize="none"
+          autoCorrect={false}
+          clearButtonMode="always"
+          value={query}
+          onChangeText={queryText => handleSearch(queryText)}
+          placeholder="Search"
+          style={{ backgroundColor: '#fff', paddingHorizontal: 20 }}
+        />
       </View>
     )
   }
